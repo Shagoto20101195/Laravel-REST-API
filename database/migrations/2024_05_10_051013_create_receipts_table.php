@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
-            $table->amount('amount');
+            $table->float('amount');
             $table->string('status');
             $table->dateTime('due_at');
             $table->dateTime('paid_at')->nullable();
