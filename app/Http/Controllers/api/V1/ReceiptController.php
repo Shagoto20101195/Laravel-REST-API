@@ -6,6 +6,8 @@ use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\ReceiptCollection;
+use App\Http\Resources\V1\ReceiptResource;
 
 class ReceiptController extends Controller
 {
@@ -14,7 +16,7 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        //
+        return new ReceiptCollection(Receipt::paginate());
     }
 
     /**
@@ -38,7 +40,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
-        //
+        return new ReceiptResource($receipt);
     }
 
     /**
