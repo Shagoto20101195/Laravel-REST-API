@@ -1,4 +1,6 @@
 <?php
+// To generate this api.php file, run the following command:
+// php artisan install:api
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
