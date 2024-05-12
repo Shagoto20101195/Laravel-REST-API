@@ -31,6 +31,29 @@ class CustomerQuery
     public function transform(Request $request)
     {
         $query = [];
+
+        foreach($this->safeParams as $param => $operators)
+        {
+            $temp = $request->query($param);
+
+            if(isset($temp))
+            {
+                $col = $this->columnMap[$param] ?? $param;
+
+                foreach($operators as $operator)
+                {
+                    if(isset($temp[$operator]))
+                    {
+                        $query[] = [$col, $this->opMap[$operator], $temp[$operator]];
+                    }
+                }
+            }
+            else
+            {
+                continue;
+            }
+        }
+
         return $query;
     }
 }
