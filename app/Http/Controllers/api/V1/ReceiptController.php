@@ -8,16 +8,31 @@ use App\Http\Requests\UpdateReceiptRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ReceiptCollection;
 use App\Http\Resources\V1\ReceiptResource;
+use App\Filters\V1\ReceiptFilter;
+use Illuminate\Http\Request;
 
 class ReceiptController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new ReceiptCollection(Receipt::paginate());
+        $filter = new ReceiptFilter();
+        $queryItems = $filter->transform($request);
+
+        if (count($queryItems) == 0) 
+        {
+            return new ReceiptCollection(Receipt::paginate());
+        }
+        else
+        {
+            $receipts = Receipt::where($queryItems)->paginate();
+            return new ReceiptCollection($receipts->appends($request->query()));
+        }
+        
     }
+    
 
     /**
      * Show the form for creating a new resource.
